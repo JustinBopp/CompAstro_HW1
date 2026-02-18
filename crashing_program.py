@@ -38,10 +38,11 @@ def deriv(f,x,h,points):
         return (f(x+h)-f(x))/h
     if points==3:
         return (f(x+h)-f(x-h))/(2.0*h)
-    if points==5:
-        return (f(x-2.0*h)-8.0*f(x-h)+8.0*f(x+h)+f(x+2.0*h))/(12.0*h)
-    print("ERROR: deriv() cannot handle this many points:", points, flush=True)
-    sys.exit()
+    elif points==5:
+        return (f(x-2.0*h)-8.0*f(x-h)+8.0*f(x+h)-f(x+2.0*h))/(12.0*h)
+    else:
+        print("ERROR: deriv() cannot handle this many points:", points, flush=True)
+        exit()
 
 def secant(f,guess,points=5, itmax=100,debug=False):
     '''
@@ -90,7 +91,7 @@ def secant(f,guess,points=5, itmax=100,debug=False):
         return x_new, this_iter
 
 
-def trapezoid(f,start,end,itmax=100,debug=False):
+def trapezoid(f,start,end,epsilon=1.0e-6,itmax=100,debug=False):
     '''
     Trapezoidal rule integrator.  This starts with a single step over the 
     interval given (end-start) and keeps doubling the number of steps until
